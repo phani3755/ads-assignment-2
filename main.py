@@ -2,6 +2,10 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
 from matplotlib.colors import LinearSegmentedColormap
+import numpy as np
+from matplotlib.colors import ListedColormap
+
+cmap = ListedColormap(plt.cm.RdYlGn(np.linspace(0, 1, 256)) **2)
 
 # aggregations for heat maps
 green_house_df = pd.read_csv('data/green-house-emissions.csv')
@@ -92,7 +96,11 @@ merged_df = pd.merge(merged_df,population_growth_grouped,on=['Year','Country Nam
 
 
 # GHG Bar chart
+
 def ghg_emission_bar():
+    """
+        Displays bar plot for GreenHouse gas emissions of top 8 countries in the rankings of emissiosn
+    """
     # Load the data from the CSV file
     df = pd.read_csv('data/gh-emissions.csv')
 
@@ -127,6 +135,9 @@ def ghg_emission_bar():
     plt.show()
 
 def brazil_heat_map():
+    """
+        Displays a heatmap showing the correlation between Climate Change indicators
+    """
     brazil_df = merged_df[merged_df['Country Name']== 'Brazil']
     brazil_df.rename(columns = {'Renewable energy consumption (% of total final energy consumption)':'Renewable energy consumption'}, inplace = True)
     brazil_df.rename(columns = {'Access to electricity (% of population)':'Access to electricity'}, inplace = True)
@@ -134,11 +145,32 @@ def brazil_heat_map():
     brazil_df.rename(columns = {'Agricultural land (% of land area)':'Agricultural land'}, inplace = True)
 
     brazil_df_correlation = brazil_df.corr()
-    sns.heatmap(brazil_df_correlation,square=True,vmax=1.0,cmap=LinearSegmentedColormap.from_list('rg',["r", "w", "g"], N=256) , center=0,annot = True)
+    # sns.heatmap(brazil_df_correlation,square=True,vmax=1.0,cmap=LinearSegmentedColormap.from_list('rg',["r", "w", "g"], N=256) , center=0,annot = True)
+    fig, ax = plt.subplots()
+    heatmap = ax.imshow(brazil_df_correlation, cmap=cmap)
+    columns = brazil_df_correlation.columns.values
+    # set the x and y axis labels
+    ax.set_xticks(np.arange(len(columns)))
+    ax.set_yticks(np.arange(len(columns)))
+    ax.set_xticklabels(columns)
+    ax.set_yticklabels(columns)
+
+    # rotate the x-axis labels
+    plt.setp(ax.get_xticklabels(), rotation=45, ha="right", rotation_mode="anchor")
+    # add text annotations with correlation values
+    for i in range(len(columns)):
+        for j in range(len(columns)):
+            text = ax.text(j, i, round(brazil_df_correlation.iloc[i, j], 2), ha="center", va="center", color="w")
+
+    # add a colorbar legend
+    plt.colorbar(heatmap)
     plt.title('Brazil')
     plt.show()
 
 def india_heat_map():
+    """
+        Displays a heatmap showing the correlation between Climate Change indicators
+    """
     india_df = merged_df[merged_df['Country Name']== 'India']
     india_df.rename(columns = {'Renewable energy consumption (% of total final energy consumption)':'Renewable energy consumption'}, inplace = True)
     india_df.rename(columns = {'Access to electricity (% of population)':'Access to electricity'}, inplace = True)
@@ -146,11 +178,32 @@ def india_heat_map():
     india_df.rename(columns = {'Agricultural land (% of land area)':'Agricultural land'}, inplace = True)
 
     india_df_correlation = india_df.corr()
-    sns.heatmap(india_df_correlation,square=True,vmax=1.0,cmap=LinearSegmentedColormap.from_list('rg',["r", "w", "g"], N=256) , center=0,annot = True)
+    # sns.heatmap(india_df_correlation,square=True,vmax=1.0,cmap=LinearSegmentedColormap.from_list('rg',["r", "w", "g"], N=256) , center=0,annot = True)
+    fig, ax = plt.subplots()
+    heatmap = ax.imshow(india_df_correlation, cmap=cmap)
+    columns = india_df_correlation.columns.values
+    # set the x and y axis labels
+    ax.set_xticks(np.arange(len(columns)))
+    ax.set_yticks(np.arange(len(columns)))
+    ax.set_xticklabels(columns)
+    ax.set_yticklabels(columns)
+
+    # rotate the x-axis labels
+    plt.setp(ax.get_xticklabels(), rotation=45, ha="right", rotation_mode="anchor")
+    # add text annotations with correlation values
+    for i in range(len(columns)):
+        for j in range(len(columns)):
+            text = ax.text(j, i, round(india_df_correlation.iloc[i, j], 2), ha="center", va="center", color="w")
+
+    # add a colorbar legend
+    plt.colorbar(heatmap)
     plt.title('India')
     plt.show()
 
 def china_heat_map():
+    """
+        Displays a heatmap showing the correlation between Climate Change indicators
+    """
     china_df = merged_df[merged_df['Country Name']== 'China']
     china_df.rename(columns = {'Renewable energy consumption (% of total final energy consumption)':'Renewable energy consumption'}, inplace = True)
     china_df.rename(columns = {'Access to electricity (% of population)':'Access to electricity'}, inplace = True)
@@ -158,11 +211,32 @@ def china_heat_map():
     china_df.rename(columns = {'Agricultural land (% of land area)':'Agricultural land'}, inplace = True)
 
     china_df_correlation = china_df.corr()
-    sns.heatmap(china_df_correlation,square=True,vmax=1.0,cmap=LinearSegmentedColormap.from_list('rg',["r", "w", "g"], N=256) , center=0,annot = True)
+    # sns.heatmap(china_df_correlation,square=True,vmax=1.0,cmap=LinearSegmentedColormap.from_list('rg',["r", "w", "g"], N=256) , center=0,annot = True)
+    fig, ax = plt.subplots()
+    heatmap = ax.imshow(china_df_correlation, cmap=cmap)
+    columns = china_df_correlation.columns.values
+    # set the x and y axis labels
+    ax.set_xticks(np.arange(len(columns)))
+    ax.set_yticks(np.arange(len(columns)))
+    ax.set_xticklabels(columns)
+    ax.set_yticklabels(columns)
+
+    # rotate the x-axis labels
+    plt.setp(ax.get_xticklabels(), rotation=45, ha="right", rotation_mode="anchor")
+    # add text annotations with correlation values
+    for i in range(len(columns)):
+        for j in range(len(columns)):
+            text = ax.text(j, i, round(china_df_correlation.iloc[i, j], 2), ha="center", va="center", color="w")
+
+    # add a colorbar legend
+    plt.colorbar(heatmap)
     plt.title('China')
     plt.show()
 
 def renewable_energy_bar():
+    """
+        Displays a bar plot of comparing renewable energy consumption for top 8 coutries in terms of GHG emissions.
+    """
     # Load the data from the CSV file
     df = pd.read_csv('data/renewable-energy-consumption.csv')
     # df = pd.read_csv('data/popul-growth.csv')
@@ -198,6 +272,9 @@ def renewable_energy_bar():
     plt.show()
 
 def forest_area_line():
+    """
+     Displays a line plot for showing forest area by % for different countries.
+    """
     # Load the data from the CSV file
     df = pd.read_csv('data/forest-area.csv')
 
@@ -240,6 +317,9 @@ def forest_area_line():
     plt.show()
 
 def population_line():
+    """
+     Displays a line plot for showing population by % for different countries.
+    """
     # Load the data from the CSV file
     df = pd.read_csv('data/popl-growth.csv')
 
@@ -284,6 +364,9 @@ def population_line():
     plt.show()
 
 def ghg_pie():
+    """
+        Pie chart for showing different types of GHG contributing overall emissions
+    """
     co2_df = pd.read_csv('data/co2.csv')
     # Select the relevant columns
     cols = ['Country Name',  'Indicator Code', '2007', '2008', '2009', '2010', '2011', '2012']
@@ -338,6 +421,9 @@ def ghg_pie():
 ghg_emission_bar() #Greenhouse emissions bar chart for top countries
 brazil_heat_map() # Correlation for indicators in Brazil
 renewable_energy_bar() # Renewable energy consumption between countries comaprision
+china_heat_map() # Correlation for indicators in Brazil
 forest_area_line() # Forest area by land for different countries
+india_heat_map() # Correlation for indicators in Brazil
 population_line() # population growth for countries
 ghg_pie() # Greenhouse gas emissions segregation by Gas
+
